@@ -124,6 +124,12 @@
             height: 400px;
             margin-top: 20px;
         }
+
+        .chart {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -182,69 +188,133 @@
                 <button onclick="saveProgress('skincare')">Save 🛡️</button>
                 <button onclick="showPage('dashboard')">Back ⬅️</button>
             </div>
-            <div class="chart-container" id="skincare-chart-container"></div>
+            <div class="chart-container">
+                <canvas id="skincare-chart" class="chart"></canvas>
+            </div>
         </div>
 
-        <!-- Other Pages (Similar to Skincare) -->
-        <!-- Add pages for personal, gratitude, school, book-list, study-planner, and diet with similar structure as skincare -->
-
-        <!-- Generic Page for Chart Representation -->
-        <div id="generic-page" class="page">
-            <h3>📊 Your Weekly Progress</h3>
-            <div class="chart-container" id="weekly-chart-container"></div>
-            <button onclick="showPage('dashboard')">Back ⬅️</button>
+        <!-- Other Pages (Personal, Gratitude, School, etc.) -->
+        <div id="personal" class="page">
+            <h3>🧘 Personal Checklist</h3>
+            <ul class="checklist">
+                <li><input type="checkbox" id="meditate"> 🧘 Meditate</li>
+                <li><input type="checkbox" id="journaling"> 📝 Journaling</li>
+                <li><input type="checkbox" id="relax"> 🌴 Relax</li>
+                <li><input type="checkbox" id="walk"> 🚶 Walk</li>
+                <li><input type="checkbox" id="deep-breathing"> 😌 Deep Breathing</li>
+                <li><input type="checkbox" id="positive-affirmation"> 💭 Positive Affirmation</li>
+                <li><input type="checkbox" id="hydrate-personal"> 💦 Stay Hydrated</li>
+                <li><input type="checkbox" id="sleep"> 💤 Sleep Early</li>
+                <li><input type="checkbox" id="screen-free-time"> 🚫 Screen Time</li>
+                <li><input type="checkbox" id="hobby"> 🎨 Engage in a Hobby</li>
+            </ul>
+            <div class="nav-buttons">
+                <button onclick="saveProgress('personal')">Save 🛡️</button>
+                <button onclick="showPage('dashboard')">Back ⬅️</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="personal-chart" class="chart"></canvas>
+            </div>
         </div>
-    </div>
 
-    <script>
-        const quotes = [
-            "🌱 \"Take time to do what makes your soul happy.\"",
-            "💭 \"Every day may not be good, but there's something good in every day.\"",
-            "✨ \"Self-care is giving the world the best of you, instead of what's left of you.\"",
-            "🌟 \"You are allowed to be both a masterpiece and a work in progress simultaneously.\"",
-            "💖 \"Self-love is not selfish; it is the most important kind of love.\""
-        ];
+        <div id="gratitude" class="page">
+            <h3>🙏 Gratitude Checklist</h3>
+            <ul class="checklist">
+                <li><input type="checkbox" id="gratitude-entry"> 🙏 Write Gratitude Entry</li>
+                <li><input type="checkbox" id="call"> 📞 Call a Loved One</li>
+                <li><input type="checkbox" id="thank-you"> 🙌 Thank Someone</li>
+                <li><input type="checkbox" id="reflect"> 🪞 Reflect on Blessings</li>
+                <li><input type="checkbox" id="meditate-gratitude"> 🧘 Meditate on Gratitude</li>
+                <li><input type="checkbox" id="daily-positivity"> ✨ Practice Daily Positivity</li>
+                <li><input type="checkbox" id="smile"> 😄 Smile More</li>
+                <li><input type="checkbox" id="gratitude-meditation"> 🧘 Gratitude Meditation</li>
+                <li><input type="checkbox" id="nature-time"> 🌿 Spend Time in Nature</li>
+                <li><input type="checkbox" id="listen-to-music"> 🎧 Listen to Uplifting Music</li>
+            </ul>
+            <div class="nav-buttons">
+                <button onclick="saveProgress('gratitude')">Save 🛡️</button>
+                <button onclick="showPage('dashboard')">Back ⬅️</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="gratitude-chart" class="chart"></canvas>
+            </div>
+        </div>
 
-        function startJourney() {
-            const name = document.getElementById('username').value;
-            if (name) {
-                document.getElementById('welcome').style.display = 'none';
-                document.getElementById('signup').classList.add('active');
-            } else {
-                alert('Please enter your name!');
+        <div id="school" class="page">
+            <h3>📚 School Checklist</h3>
+            <ul class="checklist">
+                <li><input type="checkbox" id="study"> 📖 Study</li>
+                <li><input type="checkbox" id="homework"> 🏡 Homework</li>
+                <li><input type="checkbox" id="exam-study"> 📝 Exam Prep</li>
+                <li><input type="checkbox" id="project"> 🛠️ Project Work</li>
+                <li><input type="checkbox" id="revision"> 🔄 Revision</li>
+                <li><input type="checkbox" id="group-study"> 👥 Group Study</li>
+                <li><input type="checkbox" id="notes"> 📝 Take Notes</li>
+                <li><input type="checkbox" id="quiz"> 📝 Quiz Practice</li>
+                <li><input type="checkbox" id="reading"> 📚 Reading</li>
+                <li><input type="checkbox" id="assignment"> 🖊️ Assignment</li>
+            </ul>
+            <div class="nav-buttons">
+                <button onclick="saveProgress('school')">Save 🛡️</button>
+                <button onclick="showPage('dashboard')">Back ⬅️</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="school-chart" class="chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Repeat similar structure for book-list, study-planner, and diet pages -->
+
+        <!-- Javascript -->
+        <script>
+            const quotes = [
+                "Take time to do what makes your soul happy. 🌿",
+                "Self-care is not a luxury, it's a necessity. 🌱",
+                "You can't pour from an empty cup. 🧡",
+                "Invest in your mind and body. 🧘",
+                "Be kind to yourself. 💖"
+            ];
+
+            let username = '';
+
+            function startJourney() {
+                username = document.getElementById('username').value;
+                if (username) {
+                    document.getElementById('welcome').classList.remove('active');
+                    document.getElementById('signup').classList.add('active');
+                } else {
+                    alert('Please enter your name!');
+                }
             }
-        }
 
-        function createDashboard() {
-            const name = document.getElementById('name').value;
-            const dob = document.getElementById('dob').value;
-            if (name && dob) {
-                document.getElementById('signup').style.display = 'none';
-                document.getElementById('dashboard').classList.add('active');
-                document.getElementById('user-name').innerText = name;
+            function createDashboard() {
+                username = document.getElementById('name').value;
+                if (username && document.getElementById('dob').value) {
+                    document.getElementById('signup').classList.remove('active');
+                    document.getElementById('dashboard').classList.add('active');
+                    document.getElementById('user-name').innerText = username;
+                    showRandomQuote();
+                } else {
+                    alert('Please fill out all fields!');
+                }
+            }
+
+            function showPage(pageId) {
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
                 showRandomQuote();
-            } else {
-                alert('Please fill out all fields!');
             }
-        }
 
-        function showPage(pageId) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+            function showRandomQuote() {
+                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                document.getElementById('quote').innerText = randomQuote;
+            }
 
-            document.getElementById(pageId).classList.add('active');
-            showRandomQuote();
-        }
-
-        function showRandomQuote() {
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('quote').innerText = randomQuote;
-        }
-
-        function saveProgress(pageId) {
-            alert(`Progress saved for ${pageId}!`);
-            showPage('dashboard');
-        }
-    </script>
+            function saveProgress(pageId) {
+                alert(`Progress saved for ${pageId}!`);
+                showPage('dashboard');
+            }
+        </script>
+    </div>
 </body>
 </html>
