@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self Care Check Journal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Comfortaa', cursive;
+            background-color: #f3f0ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #4a3b61;
+        }
+
+        header {
+            background-color: #d6c3e6;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            color: #4a3b61;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .input-container, .page {
+            display: none;
+            text-align: center;
+        }
+
+        .input-container.active, .page.active {
+            display: block;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #d6c3e6;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #b5a0d1;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #9b78b1;
+        }
+
+        .nav-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .nav-buttons button {
+            background-color: #d6c3e6;
+            color: #4a3b61;
+            border: 1px solid #4a3b61;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #4a3b61;
+            color: white;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin: 20px auto;
+        }
+
+        .checklist li {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .emoji {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .quote {
+            font-family: 'Allura', cursive;
+            font-size: 1.5rem;
+            color: #4a3b61;
+            margin-top: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>✨ Self Care Check Journal ✨</h1>
+    </header>
+
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome" class="input-container active">
+            <h2>Hey there! 👋 What should I call you?</h2>
+            <input type="text" id="username" placeholder="Enter your name">
+            <button onclick="startJourney()">Start 📝</button>
+        </div>
+
+        <!-- Sign Up Page -->
+        <div id="signup" class="input-container">
+            <h2>Sign Up 🎉</h2>
+            <input type="text" id="name" placeholder="Your Name">
+            <input type="date" id="dob">
+            <button onclick="createDashboard()">Submit 🆗</button>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page">
+            <h2>Welcome, <span id="user-name"></span>! 🌟</h2>
+            <p>Select a section to view and edit your weekly checklist:</p>
+            <div class="nav-buttons">
+                <button onclick="showPage('skincare')">💆 Skincare</button>
+                <button onclick="showPage('personal')">🧘 Personal</button>
+                <button onclick="showPage('gratitude')">🙏 Gratitude</button>
+                <button onclick="showPage('school')">📚 School</button>
+                <button onclick="showPage('book-list')">📖 Book List</button>
+                <button onclick="showPage('study-planner')">📝 Study Planner</button>
+                <button onclick="showPage('diet')">🥗 Diet</button>
+            </div>
+            <div class="quote" id="quote"></div>
+        </div>
+
+        <!-- Skincare Page -->
+        <div id="skincare" class="page">
+            <h3>💆 Skincare Checklist</h3>
+            <ul class="checklist">
+                <li><input type="checkbox" id="cleanse"> 🧖 Cleanse</li>
+                <li><input type="checkbox" id="facewash"> 🧼 Facewash</li>
+                <li><input type="checkbox" id="moisturize"> 💧 Moisturize</li>
+                <li><input type="checkbox" id="sunscreen"> ☀️ Sunscreen</li>
+                <li><input type="checkbox" id="exfoliate"> 🔄 Exfoliate</li>
+                <li><input type="checkbox" id="serum"> 💧 Apply Serum</li>
+                <li><input type="checkbox" id="night-cream"> 🌙 Night Cream</li>
+                <li><input type="checkbox" id="eye-cream"> 👁️ Eye Cream</li>
+                <li><input type="checkbox" id="face-mask"> 🛁 Face Mask</li>
+                <li><input type="checkbox" id="hydrate"> 💦 Hydrate</li>
+            </ul>
+            <div class="nav-buttons">
+                <button onclick="saveProgress('skincare')">Save 🛡️</button>
+                <button onclick="showPage('dashboard')">Back ⬅️</button>
+            </div>
+            <div class="chart-container" id="skincare-chart-container"></div>
+        </div>
+
+        <!-- Other Pages (Similar to Skincare) -->
+        <!-- Add pages for personal, gratitude, school, book-list, study-planner, and diet with similar structure as skincare -->
+
+        <!-- Generic Page for Chart Representation -->
+        <div id="generic-page" class="page">
+            <h3>📊 Your Weekly Progress</h3>
+            <div class="chart-container" id="weekly-chart-container"></div>
+            <button onclick="showPage('dashboard')">Back ⬅️</button>
+        </div>
+    </div>
+
+    <script>
+        const quotes = [
+            "🌱 \"Take time to do what makes your soul happy.\"",
+            "💭 \"Every day may not be good, but there's something good in every day.\"",
+            "✨ \"Self-care is giving the world the best of you, instead of what's left of you.\"",
+            "🌟 \"You are allowed to be both a masterpiece and a work in progress simultaneously.\"",
+            "💖 \"Self-love is not selfish; it is the most important kind of love.\""
+        ];
+
+        function startJourney() {
+            const name = document.getElementById('username').value;
+            if (name) {
+                document.getElementById('welcome').style.display = 'none';
+                document.getElementById('signup').classList.add('active');
+            } else {
+                alert('Please enter your name!');
+            }
+        }
+
+        function createDashboard() {
+            const name = document.getElementById('name').value;
+            const dob = document.getElementById('dob').value;
+            if (name && dob) {
+                document.getElementById('signup').style.display = 'none';
+                document.getElementById('dashboard').classList.add('active');
+                document.getElementById('user-name').innerText = name;
+                showRandomQuote();
+            } else {
+                alert('Please fill out all fields!');
+            }
+        }
+
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+            showRandomQuote();
+        }
+
+        function showRandomQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote').innerText = randomQuote;
+        }
+
+        function saveProgress(pageId) {
+            alert(`Progress saved for ${pageId}!`);
+            showPage('dashboard');
+        }
+    </script>
+</body>
+</html>
