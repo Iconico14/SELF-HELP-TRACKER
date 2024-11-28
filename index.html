@@ -6,7 +6,6 @@
     <title>Self Care Check Journal</title>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Comfortaa', cursive;
@@ -118,18 +117,6 @@
             text-align: center;
             font-style: italic;
         }
-
-        .chart-container {
-            width: 100%;
-            height: 400px;
-            margin-top: 20px;
-        }
-
-        .chart {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
     </style>
 </head>
 <body>
@@ -188,12 +175,10 @@
                 <button onclick="saveProgress('skincare')">Save 🛡️</button>
                 <button onclick="showPage('dashboard')">Back ⬅️</button>
             </div>
-            <div class="chart-container">
-                <canvas id="skincare-chart" class="chart"></canvas>
-            </div>
+            <div class="quote" id="quote"></div>
         </div>
 
-        <!-- Other Pages (Personal, Gratitude, School, etc.) -->
+        <!-- Personal Page -->
         <div id="personal" class="page">
             <h3>🧘 Personal Checklist</h3>
             <ul class="checklist">
@@ -212,11 +197,10 @@
                 <button onclick="saveProgress('personal')">Save 🛡️</button>
                 <button onclick="showPage('dashboard')">Back ⬅️</button>
             </div>
-            <div class="chart-container">
-                <canvas id="personal-chart" class="chart"></canvas>
-            </div>
+            <div class="quote" id="quote"></div>
         </div>
 
+        <!-- Gratitude Page -->
         <div id="gratitude" class="page">
             <h3>🙏 Gratitude Checklist</h3>
             <ul class="checklist">
@@ -235,11 +219,10 @@
                 <button onclick="saveProgress('gratitude')">Save 🛡️</button>
                 <button onclick="showPage('dashboard')">Back ⬅️</button>
             </div>
-            <div class="chart-container">
-                <canvas id="gratitude-chart" class="chart"></canvas>
-            </div>
+            <div class="quote" id="quote"></div>
         </div>
 
+        <!-- School Page -->
         <div id="school" class="page">
             <h3>📚 School Checklist</h3>
             <ul class="checklist">
@@ -258,63 +241,62 @@
                 <button onclick="saveProgress('school')">Save 🛡️</button>
                 <button onclick="showPage('dashboard')">Back ⬅️</button>
             </div>
-            <div class="chart-container">
-                <canvas id="school-chart" class="chart"></canvas>
-            </div>
+            <div class="quote" id="quote"></div>
         </div>
 
-        <!-- Repeat similar structure for book-list, study-planner, and diet pages -->
-
-        <!-- Javascript -->
-        <script>
-            const quotes = [
-                "Take time to do what makes your soul happy. 🌿",
-                "Self-care is not a luxury, it's a necessity. 🌱",
-                "You can't pour from an empty cup. 🧡",
-                "Invest in your mind and body. 🧘",
-                "Be kind to yourself. 💖"
-            ];
-
-            let username = '';
-
-            function startJourney() {
-                username = document.getElementById('username').value;
-                if (username) {
-                    document.getElementById('welcome').classList.remove('active');
-                    document.getElementById('signup').classList.add('active');
-                } else {
-                    alert('Please enter your name!');
-                }
-            }
-
-            function createDashboard() {
-                username = document.getElementById('name').value;
-                if (username && document.getElementById('dob').value) {
-                    document.getElementById('signup').classList.remove('active');
-                    document.getElementById('dashboard').classList.add('active');
-                    document.getElementById('user-name').innerText = username;
-                    showRandomQuote();
-                } else {
-                    alert('Please fill out all fields!');
-                }
-            }
-
-            function showPage(pageId) {
-                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-                document.getElementById(pageId).classList.add('active');
-                showRandomQuote();
-            }
-
-            function showRandomQuote() {
-                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-                document.getElementById('quote').innerText = randomQuote;
-            }
-
-            function saveProgress(pageId) {
-                alert(`Progress saved for ${pageId}!`);
-                showPage('dashboard');
-            }
-        </script>
+        <!-- Repeat for other sections like Book List, Study Planner, and Diet -->
     </div>
+
+    <!-- Javascript -->
+    <script>
+        const quotes = [
+            "Take time to do what makes your soul happy. 🌿",
+            "Self-care is not a luxury, it's a necessity. 🌱",
+            "You can't pour from an empty cup. 🧡",
+            "Invest in your mind and body. 🧘",
+            "Be kind to yourself. 💖",
+            "Every day may not be good, but there is something good in every day. 🌸"
+        ];
+
+        let username = '';
+
+        function startJourney() {
+            username = document.getElementById('username').value;
+            if (username) {
+                document.getElementById('welcome').classList.remove('active');
+                document.getElementById('signup').classList.add('active');
+            } else {
+                alert('Please enter your name!');
+            }
+        }
+
+        function createDashboard() {
+            username = document.getElementById('name').value;
+            if (username && document.getElementById('dob').value) {
+                document.getElementById('signup').classList.remove('active');
+                document.getElementById('dashboard').classList.add('active');
+                document.getElementById('user-name').innerText = username;
+                showRandomQuote();
+            } else {
+                alert('Please fill out all fields!');
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            showRandomQuote();
+        }
+
+        function showRandomQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote').innerText = randomQuote;
+        }
+
+        function saveProgress(pageId) {
+            alert(`Progress saved for ${pageId}!`);
+            showPage('dashboard');
+        }
+    </script>
 </body>
 </html>
